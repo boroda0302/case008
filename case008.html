@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дело №007 | Закрыто</title>
+    <!-- Подключение Tailwind CSS для быстрой стилизации -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключение библиотеки иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Подключение шрифтов в стиле печатной машинки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Дополнительные стили для создания атмосферы */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #1a1a1d; /* Темный фон */
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%), url('https://www.transparenttextures.com/patterns/crissxcross.png');
+        }
+        .font-header {
+            font-family: 'Oswald', sans-serif;
+        }
+        .case-file-container {
+            background-color: #f3f0e1; /* Цвет старой бумаги/папки */
+            color: #2c2c2c;
+            border: 1px solid #c9ad86;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden; /* Чтобы штамп не вылезал */
+        }
+        .stamp {
+            position: absolute;
+            top: 25px;
+            right: -60px;
+            transform: rotate(15deg);
+            color: #28a745;
+            border: 5px double #28a745;
+            padding: 10px 20px;
+            font-size: 48px;
+            font-weight: 700;
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none; /* Чтобы не мешал кликать */
+            font-family: 'Oswald', sans-serif;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #c0392b; /* Акцентный красный */
+            background-color: #e6e2cd;
+            color: #c0392b;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .photo-grid img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .photo-grid img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        /* Стилизация скрепки */
+        .paperclip {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 40px;
+            color: #7f8c8d;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="case-file-container max-w-5xl mx-auto rounded-lg p-6 sm:p-10">
+        <!-- Декоративные элементы -->
+        <div class="stamp">CASE CLOSED</div>
+        <i class="fa-solid fa-paperclip paperclip"></i>
+
+        <!-- Заголовок дела -->
+        <header class="relative z-10 border-b-4 border-dashed border-gray-400 pb-4 mb-6 text-center sm:text-left">
+            <h1 class="font-header text-3xl sm:text-5xl uppercase text-gray-800">Police Department | Los Santos</h1>
+            <p class="text-lg text-gray-600">Major Crimes Division - Investigation Report</p>
+        </header>
+
+        <!-- Основная информация о деле -->
+        <section class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-sm">
+            <div class="bg-gray-200 p-3 rounded">
+                <strong class="block text-gray-500 uppercase">Номер дела:</strong>
+                <span class="text-lg">LS-2024-0451</span>
+            </div>
+            <div class="bg-gray-200 p-3 rounded">
+                <strong class="block text-gray-500 uppercase">Дата открытия:</strong>
+                <span class="text-lg">15.07.2024</span>
+            </div>
+            <div class="bg-gray-200 p-3 rounded">
+                <strong class="block text-gray-500 uppercase">Дата закрытия:</strong>
+                <span class="text-lg">21.07.2024</span>
+            </div>
+            <div class="bg-green-200 p-3 rounded border border-green-500">
+                <strong class="block text-green-600 uppercase">Статус:</strong>
+                <span class="text-lg text-green-800 font-bold">ЗАКРЫТО</span>
+            </div>
+        </section>
+
+        <!-- Навигация по вкладкам -->
+        <nav class="relative z-10 flex border-b-2 border-gray-300 mb-6">
+            <button class="tab-button active flex-1 sm:flex-initial py-3 px-6 text-lg font-bold" onclick="openTab(event, 'summary')">
+                <i class="fa-solid fa-file-alt mr-2"></i>Сводка
+            </button>
+            <button class="tab-button flex-1 sm:flex-initial py-3 px-6 text-lg font-bold" onclick="openTab(event, 'evidence')">
+                <i class="fa-solid fa-magnifying-glass mr-2"></i>Улики
+            </button>
+            <button class="tab-button flex-1 sm:flex-initial py-3 px-6 text-lg font-bold" onclick="openTab(event, 'suspects')">
+                <i class="fa-solid fa-user-secret mr-2"></i>Фигуранты
+            </button>
+            <button class="tab-button flex-1 sm:flex-initial py-3 px-6 text-lg font-bold" onclick="openTab(event, 'log')">
+                <i class="fa-solid fa-clipboard-list mr-2"></i>Журнал
+            </button>
+        </nav>
+
+        <!-- Содержимое вкладок -->
+        <main class="relative z-10">
+            <!-- Сводка -->
+            <div id="summary" class="tab-content active">
+                <h2 class="font-header text-2xl border-b border-gray-300 pb-2 mb-4">Краткое описание дела</h2>
+                <p class="mb-4 text-justify leading-relaxed">
+                    15 июля 2024 года, примерно в 22:30, поступил вызов о вооруженном ограблении ювелирного магазина "Vangelico". Трое неизвестных в масках похитили ювелирные изделия на сумму, оцениваемую в $1,200,000, после чего скрылись.
+                </p>
+                <p class="mb-4 text-justify leading-relaxed">
+                    Действия группы были скоординированными и заняли не более трех минут. После ограбления они скрылись с места преступления на черном седане марки "Oracle". На месте происшествия работала следственно-оперативная группа.
+                </p>
+                <div class="mt-6 pt-4 border-t-2 border-gray-400">
+                    <h3 class="font-header text-xl mb-2">Исход дела:</h3>
+                    <p class="text-justify leading-relaxed">
+                        В результате следственных действий все участники ограбления были установлены и нейтрализованы. Основная часть похищенных ценностей на сумму около $1,000,000 была обнаружена и возвращена владельцу. Дело передано в прокуратуру для дальнейшего судебного разбирательства. Дело № LS-2024-0451 считать закрытым.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Улики -->
+            <div id="evidence" class="tab-content">
+                <h2 class="font-header text-2xl border-b border-gray-300 pb-2 mb-4">Собранные улики и материалы</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 photo-grid">
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/333333/eeeeee?text=Запись+с+камеры" alt="Запись с камеры" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-01: Запись с камеры. Виден рост и комплекция.</p></div>
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/554433/eeeeee?text=Гильза+9mm" alt="Гильза 9mm" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-02: Гильза 9mm, найдена у входа. Передана в баллистику.</p></div>
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/223322/eeeeee?text=След+протектора" alt="След протектора" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-03: Отпечаток протектора. Шины "Atomic".</p></div>
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/442222/eeeeee?text=Показания+свидетеля" alt="Показания свидетеля" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-04: Аудиозапись показаний свидетеля Анны Ли.</p></div>
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/666666/eeeeee?text=Фоторобот" alt="Фоторобот" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-05: Фоторобот лидера группы, составлен со слов свидетеля.</p></div>
+                    <div class="border-2 border-gray-300 p-2 bg-white"><img src="https://placehold.co/600x400/113344/eeeeee?text=Волокна+ткани" alt="Волокна" class="w-full h-auto"><p class="p-2 text-sm font-bold">#E-06: Темные волокна, найдены в брошенном авто.</p></div>
+                </div>
+            </div>
+
+            <!-- Фигуранты -->
+            <div id="suspects" class="tab-content">
+                <h2 class="font-header text-2xl border-b border-gray-300 pb-2 mb-4">Досье фигурантов</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                    <!-- Фигурант 1: Лидер (Задержан) -->
+                    <div class="bg-[#fcfaf2] p-4 rounded-sm border-2 border-gray-300 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded uppercase shadow-md">Задержан</div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-shrink-0"><img src="https://placehold.co/150x200/555555/ffffff?text=MUGSHOT" alt="Фото подозреваемого" class="w-full sm:w-32 h-auto border-4 border-gray-400"></div>
+                            <div class="w-full">
+                                <h3 class="font-header text-2xl text-gray-800">Маркус 'Призрак' Торн</h3>
+                                <p class="text-sm text-gray-500 mb-2">Лидер группы. Бывший военный.</p>
+                                <table class="w-full text-sm mt-2"><tbody><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Рост:</td><td>188 см</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Телосложение:</td><td>Атлетическое</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Особые приметы:</td><td>Татуировка змеи на шее.</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Вооружение:</td><td>Compact Rifle</td></tr></tbody></table>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-dashed border-gray-300">
+                            <h4 class="font-bold text-sm uppercase">Заметки детектива:</h4>
+                            <p class="text-sm italic text-gray-700 leading-relaxed">Личность установлена благодаря показаниям Васкеза. Задержан 20.07.24 в порту при попытке покинуть город. Основная часть похищенного изъята.</p>
+                        </div>
+                    </div>
+
+                    <!-- Фигурант 2: Штурмовик (Задержан) -->
+                    <div class="bg-[#fcfaf2] p-4 rounded-sm border-2 border-gray-300 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded uppercase shadow-md">Задержан</div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-shrink-0"><img src="https://placehold.co/150x200/555555/ffffff?text=MUGSHOT" alt="Фото подозреваемого" class="w-full sm:w-32 h-auto border-4 border-gray-400"></div>
+                            <div class="w-full">
+                                <h3 class="font-header text-2xl text-gray-800">Рикардо "Рико" Васкез</h3>
+                                <p class="text-sm text-gray-500 mb-2">Штурмовик. Известный член банды Vagos.</p>
+                                <table class="w-full text-sm mt-2"><tbody><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Рост:</td><td>180 см</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Телосложение:</td><td>Крупное</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Особые приметы:</td><td>Шрам над правой бровью.</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Вооружение:</td><td>Pump Shotgun</td></tr></tbody></table>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-dashed border-gray-300">
+                            <h4 class="font-bold text-sm uppercase">Заметки детектива:</h4>
+                            <p class="text-sm italic text-gray-700 leading-relaxed">После двух дней допросов согласился на сделку со следствием и дал показания на лидера группы, Маркуса Торна, в обмен на смягчение приговора.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Фигурант 3: Водитель (Ликвидирован) -->
+                    <div class="bg-[#fcfaf2] p-4 rounded-sm border-2 border-gray-300 shadow-sm relative overflow-hidden opacity-75">
+                         <div class="absolute top-2 right-2 bg-black text-red-500 text-xs font-bold px-3 py-1 rounded uppercase shadow-md border border-red-500">Ликвидирован</div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-shrink-0"><img src="https://placehold.co/150x200/000000/444444?text=DECEASED" alt="Фото подозреваемого" class="w-full sm:w-32 h-auto border-4 border-gray-400 filter grayscale"></div>
+                            <div class="w-full">
+                                <h3 class="font-header text-2xl text-gray-800">Лео "Спиди" Галло</h3>
+                                <p class="text-sm text-gray-500 mb-2">Водитель. Мелкий угонщик.</p>
+                                <table class="w-full text-sm mt-2"><tbody><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Рост:</td><td>175 см</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Телосложение:</td><td>Худощавое</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Особые приметы:</td><td>Отсутствуют</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Вооружение:</td><td>Pistol .50</td></tr></tbody></table>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-dashed border-gray-300">
+                            <h4 class="font-bold text-sm uppercase">Заметки детектива:</h4>
+                            <p class="text-sm italic text-gray-700 leading-relaxed">Ликвидирован при попытке оказать вооруженное сопротивление во время обнаружения угнанного автомобиля 16.07.2024.</p>
+                        </div>
+                    </div>
+
+                    <!-- Фигурант 4: Свидетель -->
+                    <div class="bg-[#fcfaf2] p-4 rounded-sm border-2 border-gray-300 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded uppercase shadow-md">Свидетель</div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-shrink-0"><img src="https://placehold.co/150x200/cccccc/333333?text=CIVILIAN" alt="Фото свидетеля" class="w-full sm:w-32 h-auto border-4 border-gray-400"></div>
+                            <div class="w-full">
+                                <h3 class="font-header text-2xl text-gray-800">Аннабель Ли</h3>
+                                <p class="text-sm text-gray-500 mb-2">Продавец-консультант "Vangelico"</p>
+                                <table class="w-full text-sm mt-2"><tbody><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Статус:</td><td>Ключевой свидетель</td></tr><tr class="border-t border-gray-200"><td class="py-1 pr-2 font-semibold text-gray-600">Контакт:</td><td>+(1) 555-0182</td></tr></tbody></table>
+                            </div>
+                        </div>
+                         <div class="mt-3 pt-3 border-t border-dashed border-gray-300">
+                            <h4 class="font-bold text-sm uppercase">Заметки детектива:</h4>
+                            <p class="text-sm italic text-gray-700 leading-relaxed">Дала ключевые показания. Успешно прошла процедуру опознания Торна. Находится под программой защиты свидетелей LSPD.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Журнал -->
+            <div id="log" class="tab-content">
+                <h2 class="font-header text-2xl border-b border-gray-300 pb-2 mb-4">Журнал расследования</h2>
+                <div class="border-l-4 border-gray-300 pl-4 space-y-8">
+                    <div class="relative"><div class="absolute w-4 h-4 bg-gray-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">15.07.2024, 22:45</p><h4 class="font-bold">Прибытие на место происшествия</h4></div>
+                    <div class="relative"><div class="absolute w-4 h-4 bg-gray-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">16.07.2024, 14:20</p><h4 class="font-bold">Обнаружен автомобиль, один подозреваемый ликвидирован</h4></div>
+                    <div class="relative"><div class="absolute w-4 h-4 bg-gray-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">17.07.2024, 19:00</p><h4 class="font-bold">Проведен рейд, задержан второй подозреваемый</h4></div>
+                    <div class="relative"><div class="absolute w-4 h-4 bg-gray-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">19.07.2024, 15:00</p><h4 class="font-bold">Прорыв в деле</h4><p class="text-sm">Задержанный Рикардо Васкез согласился на сделку со следствием. Установлена личность лидера - Маркус Торн, бывший боец спецподразделения.</p></div>
+                    <div class="relative"><div class="absolute w-4 h-4 bg-gray-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">20.07.2024, 16:30</p><h4 class="font-bold">Задержание лидера группы</h4><p class="text-sm">В результате спецоперации в порту Лос-Сантоса Маркус Торн был задержан. Обнаружена основная часть похищенного.</p></div>
+                    <div class="relative"><div class="absolute w-4 h-4 bg-green-500 rounded-full -left-[26px] top-1 border-4 border-[#f3f0e1]"></div><p class="text-sm text-gray-500">21.07.2024, 12:00</p><h4 class="font-bold text-green-700">ДЕЛО ЗАКРЫТО</h4><p class="text-sm">Все подозреваемые нейтрализованы, похищенное возвращено. Материалы дела переданы в прокуратуру.</p></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Подвал документа -->
+        <footer class="relative z-10 text-center text-xs text-gray-400 mt-10 pt-4 border-t border-gray-300">
+            <p>ДОКУМЕНТ СОДЕРЖИТ КОНФИДЕНЦИАЛЬНУЮ ИНФОРМАЦИЮ. НЕ ДЛЯ РАСПРОСТРАНЕНИЯ.</p>
+            <p>LOS SANTOS POLICE DEPARTMENT © 2024</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Простой скрипт для переключения вкладок
+        function openTab(event, tabName) {
+            // Скрыть все содержимое вкладок
+            let tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.style.display = 'none');
+
+            // Убрать класс 'active' со всех кнопок
+            let tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            // Показать нужную вкладку и сделать кнопку активной
+            document.getElementById(tabName).style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
